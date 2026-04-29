@@ -16,9 +16,8 @@ containers:
 
     env:
       - PORT: "8080"
-      # Replace after the debug service is created. This must match the
-      # public Tinfoil URL registered as the OAuth callback host.
-      - TINFOIL_PUBLIC_URL: "https://vita-ingest.debug.vitality-now.containers.tinfoil.dev"
+      # Must match the public Tinfoil URL registered as the OAuth callback host.
+      - TINFOIL_PUBLIC_URL: "https://vitadaovita-ingest-tinfoil-config.debug.vitality-now.containers.tinfoil.dev"
       - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8080"
 
     secrets:
@@ -77,4 +76,3 @@ shim:
     - /api/suggest-condition
     - /api/literature-search
     - /api/literature-search/status
-
