@@ -9,7 +9,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-dc1b0e5@sha256:c087c17fe007240be22b8f484a4551e554cd1a79609c844a7f204e51ca3c413d"
+    image: "ghcr.io/vitadao/vita-ingest:sha-fdcb365@sha256:fd8614027767e0f60a7957c15da1f5f2c8efae7f9fcd92f19ad15df150c1425f"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
@@ -72,7 +72,13 @@ shim:
     - /api/generate-protocol
     - /api/generate-protocol-status
     - /api/supermemory-context
+    - /api/supermemory-context-proxy
+    - /api/supermemory-sync
     - /api/parse-supplement
     - /api/suggest-condition
     - /api/literature-search
     - /api/literature-search/status
+    - /api/aubrai-x402-chat-bot
+    - /api/literature-search-x402
+    - /api/literature-search-x402-deep-job-poll
+    - /api/literature-search-x402-cron-job
