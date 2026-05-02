@@ -18,10 +18,10 @@ containers:
       - PORT: "8080"
       # Must match the public Tinfoil URL registered as the OAuth callback host.
       - TINFOIL_PUBLIC_URL: "https://vitadaovita-ingest-tinfoil-config.debug.vitality-now.containers.tinfoil.dev"
-      - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8080"
+      - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080"
       # OAuth callbacks redirect the browser back only to these app origins.
       - DEFAULT_FRONTEND_URL: "https://staging-app.vitadao.com"
-      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8080,http://localhost:5173,http://localhost:3000"
+      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080,http://localhost:5173,http://localhost:3000"
 
     secrets:
       # GHCR pull token for ghcr.io/vitadao/vita-ingest.
