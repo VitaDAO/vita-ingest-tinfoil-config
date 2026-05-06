@@ -1,4 +1,4 @@
-# Tinfoil Container Configuration — vita-ingest debug/staging
+# Tinfoil Container Configuration — vita-ingest production
 #
 # PUBLIC REPO. Do not commit secret values here.
 # This manifest pins the vita-ingest image digest used for attestation.
@@ -17,11 +17,15 @@ containers:
     env:
       - PORT: "8080"
       # Must match the public Tinfoil URL registered as the OAuth callback host.
-      - TINFOIL_PUBLIC_URL: "https://vitadaovita-ingest-tinfoil-config.debug.vitality-now.containers.tinfoil.dev"
-      - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080"
+      - TINFOIL_PUBLIC_URL: "https://vita-ingest.vitality-now.containers.tinfoil.dev"
+      - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com"
+      # Sentry is enabled only if the vita-ingest runtime supports it and the
+      # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
+      - SENTRY_ENVIRONMENT: "production"
+      - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
-      - DEFAULT_FRONTEND_URL: "https://staging-app.vitadao.com"
-      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,http://localhost:8000,http://127.0.0.1:8000,http://localhost:8080,http://localhost:5173,http://localhost:3000"
+      - DEFAULT_FRONTEND_URL: "https://app.vitadao.com"
+      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com"
 
     secrets:
       # GHCR pull token for ghcr.io/vitadao/vita-ingest.
@@ -39,6 +43,9 @@ containers:
 
       # Tinfoil Private Inference / document conversion for raw lab parsing.
       - TINFOIL_API_KEY
+
+      # Sentry error monitoring. DSN is a secret in Tinfoil, never committed.
+      - SENTRY_DSN
 
       # Wearable OAuth credentials.
       - OURA_CLIENT_ID
@@ -65,23 +72,3 @@ shim:
     - /api/wearable/withings/auth
     - /api/wearable/withings/callback
     - /api/wearable/withings/fetch
-
-    # Compatibility only. vita-ingest returns 410 without reading bodies or
-    # forwarding PHI for these legacy private-AI proxy routes.
-    - /api/aubrai-x402-chat
-    - /api/aubrai-x402-status
-    - /api/aubrai-x402-daily-insight
-    - /api/refine-protocol
-    - /api/generate-protocol
-    - /api/generate-protocol-status
-    - /api/supermemory-context
-    - /api/supermemory-context-proxy
-    - /api/supermemory-sync
-    - /api/parse-supplement
-    - /api/suggest-condition
-    - /api/literature-search
-    - /api/literature-search/status
-    - /api/aubrai-x402-chat-bot
-    - /api/literature-search-x402
-    - /api/literature-search-x402-deep-job-poll
-    - /api/literature-search-x402-cron-job
