@@ -9,7 +9,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-4811ff5@sha256:128eb8c25b06c51433e98a8ab5ced82afe67cfaec52b1da226384308deb15e78"
+    image: "ghcr.io/vitadao/vita-ingest:sha-9988091@sha256:cee0ce7cbc2d8f17d164f4933edcd174dfd1a06fa572e18e52d15f0a9c025385"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
