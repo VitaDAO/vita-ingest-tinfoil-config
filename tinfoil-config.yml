@@ -9,7 +9,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-9988091@sha256:cee0ce7cbc2d8f17d164f4933edcd174dfd1a06fa572e18e52d15f0a9c025385"
+    image: "ghcr.io/vitadao/vita-ingest:sha-56d00ba@sha256:070ec26e24449a8c0a3373ffe6b1299c55fc432518fd6e3c26fcc74eab8cf61c"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
@@ -22,6 +22,8 @@ containers:
       # Sentry is enabled only if the vita-ingest runtime supports it and the
       # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
       - SENTRY_ENVIRONMENT: "production"
+      - SENTRY_RELEASE: "vita-ingest@56d00ba29b01"
+      - VITA_INGEST_VERSION: "vita-ingest@56d00ba29b01"
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
       - DEFAULT_FRONTEND_URL: "https://app.vitadao.com"
