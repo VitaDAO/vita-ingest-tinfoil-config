@@ -71,6 +71,7 @@ shim:
     - /api/wearable/whoop/auth
     - /api/wearable/whoop/callback
     - /api/wearable/whoop/fetch
+    - /api/wearable/whoop/sync
     - /api/wearable/withings/auth
     - /api/wearable/withings/callback
     - /api/wearable/withings/fetch
