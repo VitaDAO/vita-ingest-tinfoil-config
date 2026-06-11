@@ -1,4 +1,4 @@
-# Tinfoil Container Configuration Ã¢â‚¬â€ vita-ingest production
+# Tinfoil Container Configuration — vita-ingest production
 #
 # PUBLIC REPO. Do not commit secret values here.
 # This manifest pins the vita-ingest image digest used for attestation.
