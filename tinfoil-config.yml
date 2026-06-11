@@ -1,4 +1,4 @@
-# Tinfoil Container Configuration â€” vita-ingest production
+# Tinfoil Container Configuration Ã¢â‚¬â€ vita-ingest production
 #
 # PUBLIC REPO. Do not commit secret values here.
 # This manifest pins the vita-ingest image digest used for attestation.
@@ -9,7 +9,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-851f75a@sha256:3239692e7f321cf199963f47ab4934f834bebb143c8a4de75ab912a11582cf62"
+    image: "ghcr.io/vitadao/vita-ingest:sha-ae2cdfb@sha256:d104875cf6b8a306ecf1171516d6dd0f43027573620e358f412f3095632f36ba"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
@@ -22,8 +22,8 @@ containers:
       # Sentry is enabled only if the vita-ingest runtime supports it and the
       # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
       - SENTRY_ENVIRONMENT: "production"
-      - SENTRY_RELEASE: "vita-ingest@851f75ae"
-      - VITA_INGEST_VERSION: "vita-ingest@851f75ae"
+      - SENTRY_RELEASE: "vita-ingest@ae2cdfb1"
+      - VITA_INGEST_VERSION: "vita-ingest@ae2cdfb1"
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
       - DEFAULT_FRONTEND_URL: "https://app.vitadao.com"
