@@ -16,7 +16,7 @@ suggestion, and research orchestration remain owned by `vita-agent`.
 ## Current Image
 
 ```text
-ghcr.io/vitadao/vita-ingest:sha-71cad60@sha256:b5f092f3c5a86c04e18700cf93ae81f5dac2d0b9262107a9a713f8e3e7dd85f5
+ghcr.io/vitadao/vita-ingest:sha-b7baadc@sha256:fec9a70a2812698f80b1eb175f9d33434c9504f6cce96cfabc850ec0e46594ff
 ```
 
 ## Deploy Notes
@@ -73,6 +73,7 @@ Production `vita-ingest` exposes only:
 
 - `/health`
 - `/api/parse-lab-results`
+- `/api/summarize-screening-report`
 - wearable OAuth and fetch routes under `/api/wearable/{oura,whoop,withings}/...`
 
 Legacy private-AI proxy routes are intentionally not exposed by this manifest.
