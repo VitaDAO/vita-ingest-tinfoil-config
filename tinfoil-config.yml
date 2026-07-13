@@ -19,6 +19,11 @@ containers:
       # Must match the public Tinfoil URL registered as the OAuth callback host.
       - TINFOIL_PUBLIC_URL: "https://vita-ingest.vitality-now.containers.tinfoil.dev"
       - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com"
+      # Inference model for lab parsing + screening-report summaries. Must be
+      # a model that exists on inference.tinfoil.sh — an unknown name comes
+      # back as a 404, which sha-b90ab49 and earlier relay to the client as
+      # if the route itself were missing.
+      - TINFOIL_LAB_TEXT_MODEL: "gemma4-31b"
       # Sentry is enabled only if the vita-ingest runtime supports it and the
       # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
       - SENTRY_ENVIRONMENT: "production"
