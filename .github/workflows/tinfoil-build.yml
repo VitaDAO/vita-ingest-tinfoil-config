@@ -17,6 +17,16 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
+      - name: Require a lightweight release tag
+        shell: bash
+        run: |
+          object_type="$(git cat-file -t "$GITHUB_REF")"
+          if [ "$object_type" != "commit" ]; then
+            echo "Refusing to attest tag object type '$object_type'."
+            echo "Production Tinfoil releases must use lightweight Git tags."
+            exit 1
+          fi
+
       - name: Reject staging config in production attestation repo
         shell: bash
         run: |
