@@ -1,7 +1,8 @@
-# Tinfoil Container Configuration — vita-ingest production
+# Tinfoil Container Configuration — vita-ingest staging debug
 #
 # PUBLIC REPO. Do not commit secret values here.
-# This manifest pins the vita-ingest image digest used for attestation.
+# This tag is intended only for the staging-vita-ingest debug enclave.
+# Production must remain pinned to its existing production release tag.
 
 cvm-version: 0.7.5
 cpus: 2
@@ -9,7 +10,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-b90ab49@sha256:19fd48b1d6ee2c30dc64383952a80a77fb56268241d8be066308b91ff04c6a38"
+    image: "ghcr.io/vitadao/vita-ingest:sha-5ab8ca9@sha256:d540ede58b8471bc0ddb28950c6ca5f8d20d2a344924b979443c82a88af84bed"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
@@ -17,36 +18,33 @@ containers:
     env:
       - PORT: "8080"
       # Must match the public Tinfoil URL registered as the OAuth callback host.
-      - TINFOIL_PUBLIC_URL: "https://vita-ingest.vitality-now.containers.tinfoil.dev"
-      - VITA_INGEST_CORS_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com"
+      - TINFOIL_PUBLIC_URL: "https://staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev"
+      - VITA_INGEST_CORS_ORIGINS: "https://staging-app.vitadao.com"
       # Inference model for lab parsing + screening-report summaries. Must be
-      # a model that exists on inference.tinfoil.sh — an unknown name comes
-      # back as a 404, which sha-b90ab49 and earlier relay to the client as
-      # if the route itself were missing.
+      # a model that exists on inference.tinfoil.sh; unknown names return 404.
       - TINFOIL_LAB_TEXT_MODEL: "gemma4-31b"
       # Sentry is enabled only if the vita-ingest runtime supports it and the
       # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
-      - SENTRY_ENVIRONMENT: "production"
-      - SENTRY_RELEASE: "vita-ingest@b90ab49f"
-      - VITA_INGEST_VERSION: "vita-ingest@b90ab49f"
+      - SENTRY_ENVIRONMENT: "staging"
+      - SENTRY_RELEASE: "vita-ingest@5ab8ca9a"
+      - VITA_INGEST_VERSION: "vita-ingest@5ab8ca9a"
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
-      - DEFAULT_FRONTEND_URL: "https://app.vitadao.com"
-      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com"
+      - DEFAULT_FRONTEND_URL: "https://staging-app.vitadao.com"
+      - ALLOWED_REDIRECT_ORIGINS: "https://staging-app.vitadao.com"
 
     secrets:
       # GHCR pull token for ghcr.io/vitadao/vita-ingest.
       - VITA_INGEST_GHCR_TOKEN
 
-      # Supabase. Service-role is currently required by wearable connection
-      # token writes inherited from the legacy proxy; do not use this service
-      # for private-AI routes.
-      - SUPABASE_URL
-      - SUPABASE_ANON_KEY
-      - SUPABASE_SERVICE_ROLE_KEY
+      # Isolated staging Supabase project. Never mount production Supabase
+      # secrets into this debug enclave.
+      - STAGING_SUPABASE_URL
+      - STAGING_SUPABASE_PUBLISHABLE_KEY
+      - STAGING_SUPABASE_SECRET_KEY
 
       # OAuth token envelope encryption.
-      - CONNECTION_TOKEN_KEK
+      - STAGING_CONNECTION_TOKEN_KEK
 
       # Tinfoil Private Inference / document conversion for raw lab parsing.
       - TINFOIL_API_KEY
