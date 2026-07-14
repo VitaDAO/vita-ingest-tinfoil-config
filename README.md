@@ -21,6 +21,11 @@ ghcr.io/vitadao/vita-ingest:sha-b90ab49@sha256:19fd48b1d6ee2c30dc64383952a80a77f
 
 ## Deploy Notes
 
+This repository is the production attestation source consumed by the app's
+`SecureClient`. Never publish a staging or debug config as a release here:
+the latest release defines the measurement production clients trust. Use a
+separate config repository for staging.
+
 1. Create or update the non-debug Tinfoil service from this public repo.
 2. Add all secrets listed in `tinfoil-config.yml` in the Tinfoil dashboard.
 3. After Tinfoil creates the production URL, update `TINFOIL_PUBLIC_URL` in

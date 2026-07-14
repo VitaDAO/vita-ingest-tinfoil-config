@@ -17,6 +17,15 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
+      - name: Reject staging config in production attestation repo
+        shell: bash
+        run: |
+          if grep -Eq 'debug\.vitality-now\.containers\.tinfoil\.dev|STAGING_' tinfoil-config.yml; then
+            echo "Refusing to attest a staging/debug config from the production config repository."
+            echo "Use a dedicated staging Tinfoil config repository instead."
+            exit 1
+          fi
+
       - uses: tinfoilsh/pri-build-action@5d450a7f30904866efc401e24484b935b7ed52dd
         with:
           config-file: ${{ github.workspace }}/tinfoil-config.yml
