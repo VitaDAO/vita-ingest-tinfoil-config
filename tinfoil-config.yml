@@ -9,7 +9,7 @@ memory: 4096
 
 containers:
   - name: vita-ingest
-    image: "ghcr.io/vitadao/vita-ingest:sha-91f68c0@sha256:c65b933f281182847a3c8a2278a779566e17f27f5601c36d9fa331cd72e916e2"
+    image: "ghcr.io/vitadao/vita-ingest:sha-7119129@sha256:49b4a236c9926eba563eafa14b54be4afc8b6aac2e6961d5304ef62aa8823233"
     registry:
       username: DobrinAlexandru
       password_secret: VITA_INGEST_GHCR_TOKEN
@@ -27,8 +27,9 @@ containers:
       # Sentry is enabled only if the vita-ingest runtime supports it and the
       # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
       - SENTRY_ENVIRONMENT: "production"
-      - SENTRY_RELEASE: "vita-ingest@91f68c0a"
-      - VITA_INGEST_VERSION: "vita-ingest@91f68c0a"
+      - SENTRY_RELEASE: "vita-ingest@7119129b"
+      - VITA_INGEST_VERSION: "vita-ingest@7119129b"
+      - VITA_ANALYTICS_ENVIRONMENT: "production"
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
       - DEFAULT_FRONTEND_URL: "https://app.vitadao.com"
@@ -61,6 +62,9 @@ containers:
       - WHOOP_CLIENT_SECRET
       - WITHINGS_CLIENT_ID
       - WITHINGS_CLIENT_SECRET
+
+      # Anonymous, telemetry-only production project key.
+      - POSTHOG_PROJECT_KEY
 
 shim:
   upstream-port: 8080

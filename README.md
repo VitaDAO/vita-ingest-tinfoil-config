@@ -16,7 +16,7 @@ suggestion, and research orchestration remain owned by `vita-agent`.
 ## Current Image
 
 ```text
-ghcr.io/vitadao/vita-ingest:sha-6b61f6f@sha256:6c02011501a76d38788f722030a855be93191a592501b14453116fb84e107f91
+ghcr.io/vitadao/vita-ingest:sha-7119129@sha256:49b4a236c9926eba563eafa14b54be4afc8b6aac2e6961d5304ef62aa8823233
 ```
 
 ## Deploy Notes
@@ -43,6 +43,11 @@ separate config repository for staging.
 public manifest. `SENTRY_DSN` is a Tinfoil secret. vita-ingest events must stay
 metadata-only: no lab file text, wearable payloads, OAuth tokens, cookies,
 request bodies, or Supabase service-role details should be sent to Sentry.
+
+PostHog receives only the closed `server_request_completed` schema with coarse
+status, result, and duration fields. Health checks, HEAD requests, and CORS
+preflights are excluded. The project key is mounted from the Tinfoil vault;
+no account identifier, route, request body, IP, or health data is captured.
 
 ## Production OAuth Callback URLs
 
