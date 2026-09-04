@@ -16,7 +16,7 @@ suggestion, and research orchestration remain owned by `vita-agent`.
 ## Current Image
 
 ```text
-ghcr.io/vitadao/vita-ingest:sha-10ec656@sha256:2488ac4bb6783ff21e3629252e90a400647da83fbd2eb47c858b9ce85d842af2
+ghcr.io/vitadao/vita-ingest:sha-a2b6f4a@sha256:22a50ed8a67e15485c4e464d62c791e586251169ff7e7ef3c7acde647ac3494a
 ```
 
 ## Deploy Notes
