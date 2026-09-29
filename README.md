@@ -1,9 +1,15 @@
-# vita-ingest Tinfoil Config
+# Vita Ingest staging Tinfoil config
 
-Public Tinfoil deployment manifest for the production `vita-ingest` enclave.
+This branch contains the staging manifest for the debug `staging-vita-ingest`
+container. Production stays on the `main` branch of this same repository.
 
 This repository intentionally contains no secret values. Secret names in
 `tinfoil-config.yml` must be populated in the Tinfoil dashboard before deploy.
+
+- Production tags use `vX.Y.Z` and remain normal releases.
+- Staging tags use `staging-vX.Y.Z` and remain prereleases.
+- Both tags may pin the same immutable Docker image while using different
+  environment settings and secret names.
 
 `vita-ingest` is not a private-AI brain. It only handles ingestion surfaces:
 
@@ -21,26 +27,14 @@ ghcr.io/vitadao/vita-ingest:sha-a2b6f4a@sha256:22a50ed8a67e15485c4e464d62c791e58
 
 ## Deploy Notes
 
-This repository is the production attestation source consumed by the app's
-`SecureClient`. Never publish a staging or debug config as a release here:
-the latest release defines the measurement production clients trust. Use a
-separate config repository for staging.
-
-1. Create or update the non-debug Tinfoil service from this public repo.
-2. Add all secrets listed in `tinfoil-config.yml` in the Tinfoil dashboard.
-3. After Tinfoil creates the production URL, update `TINFOIL_PUBLIC_URL` in
-   `tinfoil-config.yml` to that exact URL and redeploy.
-4. Register the same callback URLs in the wearable vendor dashboards.
-5. Keep `DEFAULT_FRONTEND_URL` and `ALLOWED_REDIRECT_ORIGINS` scoped to
-   `app.vitadao.com` and the staging host used for production-shaped tests.
-6. Optional: set `SENTRY_DSN` in the Tinfoil dashboard to enable scrubbed error
-   monitoring once the deployed vita-ingest image supports the Sentry runtime
-   hook. Do not commit the DSN value into this public repo.
+Create lightweight `staging-v*` tags only from this branch. The workflow marks
+them as prereleases, so they cannot replace the normal production release.
+Attach only the staging secret names declared in `tinfoil-config.yml`.
 
 ## Monitoring
 
-`SENTRY_ENVIRONMENT=production` and zero trace sampling are configured in the
-public manifest. `SENTRY_DSN` is a Tinfoil secret. vita-ingest events must stay
+`SENTRY_ENVIRONMENT=staging` and zero trace sampling are configured in this
+manifest. `SENTRY_DSN` is a Tinfoil secret. vita-ingest events must stay
 metadata-only: no lab file text, wearable payloads, OAuth tokens, cookies,
 request bodies, or Supabase service-role details should be sent to Sentry.
 
@@ -49,37 +43,37 @@ status, result, and duration fields. Health checks, HEAD requests, and CORS
 preflights are excluded. The project key is mounted from the Tinfoil vault;
 no account identifier, route, request body, IP, or health data is captured.
 
-## Production OAuth Callback URLs
+## Staging OAuth callback URLs
 
 The wearable vendor dashboards must match these URLs exactly for the current
-production `vita-ingest` container. Do not add trailing slashes or query params.
+staging `vita-ingest` container. Do not add trailing slashes or query params.
 
 ```text
 Oura:
-https://vita-ingest.vitality-now.containers.tinfoil.dev/api/wearable/oura/callback
+https://staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev/api/wearable/oura/callback
 
 WHOOP:
-https://vita-ingest.vitality-now.containers.tinfoil.dev/api/wearable/whoop/callback
+https://staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev/api/wearable/whoop/callback
 
 Withings:
-https://vita-ingest.vitality-now.containers.tinfoil.dev/api/wearable/withings/callback
+https://staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev/api/wearable/withings/callback
 ```
 
 Use separate OAuth apps/client IDs for debug/staging and production.
 
-## Production Frontend Redirect Origins
+## Staging frontend redirect origins
 
 After vendor OAuth succeeds, `vita-ingest` redirects the browser back only to
 allowlisted app origins encoded in the OAuth `state` value.
 
 ```text
-DEFAULT_FRONTEND_URL=https://app.vitadao.com
-ALLOWED_REDIRECT_ORIGINS=https://app.vitadao.com,https://staging-app.vitadao.com
+DEFAULT_FRONTEND_URL=https://staging-app.vitadao.com
+ALLOWED_REDIRECT_ORIGINS=https://staging-app.vitadao.com
 ```
 
 ## Exposed Routes
 
-Production `vita-ingest` exposes only:
+Staging `vita-ingest` exposes only:
 
 - `/health`
 - `/api/parse-lab-results`

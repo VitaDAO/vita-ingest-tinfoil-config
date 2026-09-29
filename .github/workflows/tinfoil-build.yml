@@ -1,9 +1,9 @@
-name: Build & Attest Tinfoil Image
+name: Build and attest Vita Ingest staging enclave
 
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'staging-v*'
 
 jobs:
   build:
@@ -17,22 +17,31 @@ jobs:
     steps:
       - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
-      - name: Require a lightweight release tag
+      - name: Require a lightweight staging release tag
         shell: bash
         run: |
+          case "$GITHUB_REF_NAME" in
+            staging-v*) ;;
+            *) echo "Refusing non-staging tag: $GITHUB_REF_NAME"; exit 1 ;;
+          esac
           object_type="$(git cat-file -t "$GITHUB_REF")"
           if [ "$object_type" != "commit" ]; then
             echo "Refusing to attest tag object type '$object_type'."
-            echo "Production Tinfoil releases must use lightweight Git tags."
             exit 1
           fi
 
-      - name: Reject staging config in production attestation repo
+      - name: Enforce staging-only isolation
         shell: bash
         run: |
-          if grep -Eq 'debug\.vitality-now\.containers\.tinfoil\.dev|STAGING_' tinfoil-config.yml; then
-            echo "Refusing to attest a staging/debug config from the production config repository."
-            echo "Use a dedicated staging Tinfoil config repository instead."
+          grep -q 'staging-vita-ingest.debug.vitality-now.containers.tinfoil.dev' tinfoil-config.yml
+          grep -q 'VITA_ANALYTICS_ENVIRONMENT: "staging"' tinfoil-config.yml
+          grep -q 'POSTHOG_STAGING_PROJECT_KEY' tinfoil-config.yml
+          grep -q 'STAGING_SUPABASE_URL' tinfoil-config.yml
+          grep -Fq 'image: "ghcr.io/vitadao/vita-ingest:sha-a2b6f4a@sha256:22a50ed8a67e15485c4e464d62c791e586251169ff7e7ef3c7acde647ac3494a"' tinfoil-config.yml
+          grep -Fq 'SENTRY_RELEASE: "vita-ingest@a2b6f4a3"' tinfoil-config.yml
+          grep -Fq 'VITA_INGEST_VERSION: "vita-ingest@a2b6f4a3"' tinfoil-config.yml
+          if grep -Eq '(^|[^A-Z_])(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|CONNECTION_TOKEN_KEK|POSTHOG_PROJECT_KEY)([^A-Z_]|$)' tinfoil-config.yml; then
+            echo "Refusing production secret names in the staging manifest."
             exit 1
           fi
 
@@ -40,4 +49,4 @@ jobs:
         with:
           config-file: ${{ github.workspace }}/tinfoil-config.yml
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          prerelease: "false"
+          prerelease: "true"
