@@ -71,6 +71,7 @@ shim:
     # Active ingest routes
     - /api/parse-lab-results
     - /api/summarize-screening-report
+    - /api/transcribe
     - /api/wearable/oura/auth
     - /api/wearable/oura/callback
     - /api/wearable/oura/fetch
