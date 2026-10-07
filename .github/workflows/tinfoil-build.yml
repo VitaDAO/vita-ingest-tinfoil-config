@@ -37,9 +37,9 @@ jobs:
           grep -q 'VITA_ANALYTICS_ENVIRONMENT: "staging"' tinfoil-config.yml
           grep -q 'POSTHOG_STAGING_PROJECT_KEY' tinfoil-config.yml
           grep -q 'STAGING_SUPABASE_URL' tinfoil-config.yml
-          grep -Fq 'image: "ghcr.io/vitadao/vita-ingest:sha-c827719@sha256:fa56b0f4de1173fd7aac17354e6ba54c6e12ceaba25d7bed86ace4c022b41adb"' tinfoil-config.yml
-          grep -Fq 'SENTRY_RELEASE: "vita-ingest@c8277199"' tinfoil-config.yml
-          grep -Fq 'VITA_INGEST_VERSION: "vita-ingest@c8277199"' tinfoil-config.yml
+          grep -Fq 'image: "ghcr.io/vitadao/vita-ingest:sha-5a2cdbf@sha256:6a5e3e57592c307bb27d1219d425b839f43cdb8d5c1e6bd557239226a87c1b9a"' tinfoil-config.yml
+          grep -Fq 'SENTRY_RELEASE: "vita-ingest@5a2cdbfb"' tinfoil-config.yml
+          grep -Fq 'VITA_INGEST_VERSION: "vita-ingest@5a2cdbfb"' tinfoil-config.yml
           if grep -Eq '(^|[^A-Z_])(SUPABASE_URL|SUPABASE_ANON_KEY|SUPABASE_SERVICE_ROLE_KEY|CONNECTION_TOKEN_KEK|POSTHOG_PROJECT_KEY)([^A-Z_]|$)' tinfoil-config.yml; then
             echo "Refusing production secret names in the staging manifest."
             exit 1
