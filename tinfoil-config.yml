@@ -17,9 +17,6 @@ containers:
   - name: vita-ingest
     networks: [public]
     image: "ghcr.io/vitadao/vita-ingest:sha-5283062@sha256:79a9b82381a64efd7e034bfc80901bf6b69716a2df014d9952cd71c3ac2a39c4"
-    registry:
-      username: DobrinAlexandru
-      password_secret: VITA_INGEST_GHCR_TOKEN
 
     env:
       - PORT: "8080"
