@@ -3,16 +3,20 @@
 # PUBLIC REPO. Do not commit secret values here.
 # This manifest belongs only to staging tags on the staging branch.
 
-cvm-version: 0.7.5
+cvm-version: 0.14.10
 cpus: 2
 memory: 4096
 
+networks:
+  public:
+    # CVM >= 0.11 isolates containers by default (egress: closed). The service calls
+    # Supabase, Tinfoil inference/attestation, Sentry and other HTTPS APIs.
+    egress: open
+
 containers:
   - name: vita-ingest
+    networks: [public]
     image: "ghcr.io/vitadao/vita-ingest:sha-5283062@sha256:79a9b82381a64efd7e034bfc80901bf6b69716a2df014d9952cd71c3ac2a39c4"
-    registry:
-      username: DobrinAlexandru
-      password_secret: VITA_INGEST_GHCR_TOKEN
 
     env:
       - PORT: "8080"
