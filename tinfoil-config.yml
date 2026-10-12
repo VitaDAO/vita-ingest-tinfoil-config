@@ -3,7 +3,7 @@
 # PUBLIC REPO. Do not commit secret values here.
 # This manifest belongs only to staging tags on the staging branch.
 
-cvm-version: 0.14.10
+cvm-version: 0.14.7
 cpus: 2
 memory: 4096
 
