@@ -3,16 +3,20 @@
 # PUBLIC REPO. Do not commit secret values here.
 # This manifest pins the vita-ingest image digest used for attestation.
 
-cvm-version: 0.7.5
+cvm-version: 0.14.10
 cpus: 2
 memory: 4096
 
+networks:
+  public:
+    # CVM >= 0.11 isolates containers by default (egress: closed). The service calls
+    # Supabase, Tinfoil inference/attestation, Sentry and other HTTPS APIs.
+    egress: open
+
 containers:
   - name: vita-ingest
+    networks: [public]
     image: "ghcr.io/vitadao/vita-ingest:sha-c386703@sha256:cc7f7d3f6ce2aa23a8991a9025553e4522e16af10659d65dc839b73a057ddc89"
-    registry:
-      username: DobrinAlexandru
-      password_secret: VITA_INGEST_GHCR_TOKEN
 
     env:
       - PORT: "8080"
