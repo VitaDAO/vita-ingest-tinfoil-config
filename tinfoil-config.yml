@@ -16,7 +16,7 @@ networks:
 containers:
   - name: vita-ingest
     networks: [public]
-    image: "ghcr.io/vitadao/vita-ingest:sha-c386703@sha256:cc7f7d3f6ce2aa23a8991a9025553e4522e16af10659d65dc839b73a057ddc89"
+    image: "ghcr.io/vitadao/vita-ingest:sha-0370971@sha256:14e0a0cf66543c6215ad0f10c596a739703bfa294970128e09f75356470438df"
 
     env:
       - PORT: "8080"
@@ -31,8 +31,8 @@ containers:
       # Sentry is enabled only if the vita-ingest runtime supports it and the
       # SENTRY_DSN secret is set in Tinfoil. Keep traces off by default.
       - SENTRY_ENVIRONMENT: "production"
-      - SENTRY_RELEASE: "vita-ingest@c386703b"
-      - VITA_INGEST_VERSION: "vita-ingest@c386703b"
+      - SENTRY_RELEASE: "vita-ingest@0370971f"
+      - VITA_INGEST_VERSION: "vita-ingest@0370971f"
       - VITA_ANALYTICS_ENVIRONMENT: "production"
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
