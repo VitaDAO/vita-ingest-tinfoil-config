@@ -37,7 +37,7 @@ containers:
       - SENTRY_TRACES_SAMPLE_RATE: "0"
       # OAuth callbacks redirect the browser back only to these app origins.
       - DEFAULT_FRONTEND_URL: "https://app.vitadao.com"
-      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com"
+      - ALLOWED_REDIRECT_ORIGINS: "https://app.vitadao.com,https://staging-app.vitadao.com,vita://dashboard"
 
     secrets:
       # GHCR pull token for ghcr.io/vitadao/vita-ingest.
